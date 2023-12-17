@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      h1 {
+        text-align: center;
+      }
+
+      #player {
+        display: flex; 
+        position: fixed;/*Не убирать. Располагает плеер в нижней части экрана.*/
+        margin:0;       /*Не убирать. Располагает плеер в нижней части экрана.*/
+        bottom: 0;      /*Не убирать. Располагает плеер в нижней части экрана.*/
+        left: 0;        /*Не убирать. Располагает плеер в нижней части экрана.*/
+        width: 100%;
+        height: 15vh;
+        background-color: #f0f0f0;
+      }
+      
+      #baseControls {
+        flex: 1;
+      }
+
+      #miniInfo {
+        display: flex;
+        height:100%;
+        flex:3
+      }
+      
+      #controls{
+        flex:4;
+      }
+      
+      #currentTextInfo {
+        margin: 1vh 1vh;
+        display: inline-grid; 
+        height:100%;
+      }
+
+      #miniCover {
+        height: 15vh;
+        object-fit: contain;
+      }
+
+      #currentTextInfo {
+        display: flex ;
+        flex: 3;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      #currentTextInfo *{
+        height: 50%;
+        margin: 0;
+      }
+
+      #page {
+        position: fixed;/*Не убирать. Обеспечивает прокрутку страницы.*/
+        top: 0;         /*Не убирать. Обеспечивает прокрутку страницы.*/
+        left: 0;        /*Не убирать. Обеспечивает прокрутку страницы.*/
+        width: 100%;
+        height: 100%;   /*Не убирать. Обеспечивает прокрутку страницы.*/
+        overflow: auto; /*Не убирать. Обеспечивает прокрутку страницы.*/
+        background-color: #f0f0f0; /* Цвет фона для наглядности */
+      }
+      #albumInfo {
+        height: 20vh;
+        margin: 5% 5% 5%;
+        display: flex;
+        width: 80%; 
+      }
+
+      
+      img {
+        max-height: 100%; /* Занимает всю высоту блока */
+        object-fit: contain;
+      }
+      
+      #textInfo {
+        padding-left: 2.5%;
+        flex: 3; /* Занимает половину доступной ширины */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      
+      #authorName {
+        font-size: 3em;
+        text-align: left;
+        margin: 0; 
+        flex: 1;
+      }
+      
+      #description {
+        overflow:scroll;
+        margin:0;
+        flex: 3;
+      }
+      
+      .song {
+        border: 0.2em solid #000000 ;
+        margin: 2em;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="page">
+    <header>
+      <h1>Очень пафосное название сайта</h1>
+    </header>
+    <main>
+        <div id="albumInfo">
+          <img id="cover" src="" alt="Обложка альбома">
+          <div id="textInfo">
+            <h2 id="authorName">Группа</h2>
+            <p id ="description">Описание</p>
+          </div>
+        </div>
+      
+      <div id="songsList">
+
+      </div>
+    </main>
+    <footer>
+    </footer> 
+  </div>  
+    <div id="player">
+      <span id="baseControls">
+        <button id="back" onclick="back()"><<</button>
+        <button id = "play" onclick="play()">|> </button>
+        <button id="forward" onclick="forward()">>></button>
+    </span>
+      <span id="miniInfo">
+        <img id="miniCover" src="" alt="Обложка альбома">
+        <span  id="currentTextInfo">
+          <h3 id="currentSongName"></h3>
+          <h3 id="currentAuthorName"></h3>
+        </span>
+      </span>
+      <span id="controls">
+        <button id="loop" onclick="changeLoop(this.value)" value="0">8</button>
+        <button id="volume">A</button>
+        <button id="lyrics">T</button>
+      </div>
+      <audio id="audioPlayer" src="" controls> </audio>   
+    <script>
+
+    function getSongList() {  
+      return [
+      {
+        "songName": "Attack",
+        "songPath": "Albums/Hypnotyze/01 - Attack.mp3"
+      },
+      {
+        "songName": "Dreaming",
+        "songPath": "Albums/Hypnotyze/02 - Dreaming.mp3"
+      },
+      {
+        "songName": "Kill Rock 'N Roll",
+        "songPath": "Albums/Hypnotyze/03 - Kill Rock 'n Roll.mp3"
+      },
+      {
+        "songName": "Hypnotize",
+        "songPath": "Albums/Hypnotyze/04 - Hypnotize.mp3"
+      },
+      {
+        "songName": "Stealing Society",
+        "songPath": "Albums/Hypnotyze/05 - Stealing Society.mp3"
+      },
+      {
+        "songName": "Tentative",
+        "songPath": "Albums/Hypnotyze/06 - Tentative.mp3"
+      },
+      {
+        "songName": "U-Fig",
+        "songPath": "Albums/Hypnotyze/07 - U-Fig.mp3"
+      },
+      {
+        "songName": "Holy Mountains",
+        "songPath": "Albums/Hypnotyze/08 - Holy Mountains.mp3"
+      },
+      {
+        "songName": "Vicinity of Obscenity",
+        "songPath": "Albums/Hypnotyze/09 - Vicinity of Obscenity.mp3"
+      },
+      {
+        "songName": "She's Like Heroin",
+        "songPath": "Albums/Hypnotyze/10 - She's Like Heroin.mp3"
+      },
+      {
+        "songName": "Lonely Day",
+        "songPath": "Albums/Hypnotyze/11 - Lonely Day.mp3"
+      },
+      {
+        "songName": "Soldier Side",
+        "songPath": "Albums/Hypnotyze/12 - Soldier Side.mp3"
+      }
+    ]
+    }
+    
+    function getAlbumInfo () {
+      return {"authorName": "System Of A Down",
+              "albumName": "Hypnotyze",
+              "year": "2005",
+              "description":"Hypnotize — пятый студийный альбом американской альтернативной метал группы System of a Down, выпущенный 22 ноября 2005 года на звукозаписывающем лейбле Columbia Records. Продюсированием альбома занимались Рик Рубин и Дарон Малакян. Hypnotize является второй и завершающей частью концептуальной дилогии Mezmerize / Hypnotize. Так же, как и на предыдущем альбоме, гитарист группы Дарон Малакян исполняет не меньше вокальных партий, чем основной вокалист группы Серж Танкян. Hypnotize стал последней студийной работой System of the Down до их четырёхлетнего перерыва с августа 2006 года по ноябрь 2010 года. Художественное оформление обложки, как и предыдущего альбома, разрабатывал отец Дарона — американский художник армянского происхождения Вартан Малакян.<br><br>С альбома было выпущено два сингла: «Hypnotize» и «Lonely Day» 11 октября и 17 апреля соответственно. 7 декабря 2006 года песня «Lonely Day» участвовала в номинации «Лучшее хард-рок исполнение» на 49 церемонии вручения премии «Грэмми», но проиграла песне «Woman» группы Wolfmother. Так же, песня заняла 10 места в таких чартах, как Alternative Songs и Hot Mainstream Rock Tracks. Песня «Hypnotize» дебютировала под номером один в американском чарте Alternative Songs и под номером 5 в Hot Mainstream Rock Tracks, что сделало песню большим интернациональным хитом. На обе песни были сняты видеоклипы. Так же, в качестве промосинглов, были выпущены две песни: «Vicinity of Obscenity» и «Kill Rock 'n Roll».<br><br>Как и предыдущий альбом, Hypnotize дебютировал под номером 1 в американском чарте, что сделало группу наравне с The Beatles, Guns N' Roses и рэперами 2Pac и DMX единственными артистами, у которых когда-либо два студийных альбома стояли на первом месте в одном и том же году. Было продано свыше миллиона копий альбома; альбом Hypnotize получил платиновый сертификат от RIAA 13 декабря 2005 года, а после золотой сертификат 25 января 2006 года",
+              "coverPath": "Albums/Hypnotyze/Cover.jpg"}
+    }
+
+    var currentSongNum = 0;
+    var isGlobalLoop = 0;
+    var isLocalLoop = 0;
+    const audioPlayer = document.getElementById("audioPlayer");
+    const staticJSONSongsList = getSongList();
+    const songsList = JSON.parse(JSON.stringify(staticJSONSongsList));
+    const playlist = [];
+
+    const staticJSONAlbumInfo = getAlbumInfo();
+    const albumInfo= JSON.parse(JSON.stringify(staticJSONAlbumInfo));
+
+    function playNext() {
+      if (loop.value == 2) {
+        audioPlayer.play();
+      }
+      else if (currentSongNum < playlist.length-1 ) {
+        currentSongNum++;
+        audioPlayer.src = playlist[currentSongNum]; 
+        audioPlayer.play();
+      }
+      else {
+        currentSongNum = 0;
+        audioPlayer.src = playlist[currentSongNum];
+        console.log(playlist[currentSongNum]);
+        if (loop.value == 1) {
+          console.log("cho");
+          audioPlayer.play();
+        }
+      }
+    }
+
+    function changeLoop(state){
+      if (state == 2){
+        loop.value = 0;
+      }
+      else{
+        loop.value++;
+      }
+
+    }
+
+    function playLast() {
+      if (loop.value == 2) {
+        audioPlayer.play();
+        return;
+      }
+      else if (currentSongNum > 0) {
+        currentSongNum--;
+      }
+      else {
+        currentSongNum = playlist.length - 1;
+      }
+      audioPlayer.src = playlist[currentSongNum];
+      audioPlayer.play();
+    }
+
+    function selectSong(n) {  
+      currentSongNum = n;
+      audioPlayer.src = playlist[currentSongNum];
+      audioPlayer.play();
+    }
+    
+    function generateSongsList(songsList) {
+      for (var i = 0; i < songsList.length; i++) {
+        playlist.push(songsList[i]["songPath"]);
+
+        var song = document.createElement("div");
+        song.className = "song";
+        song.id = i;
+
+        var SongName = document.createElement("h3");
+        SongName.innerHTML = albumInfo["authorName"] + " - " + songsList[i]["songName"];
+        SongName.className = "songName";
+
+        var playButton = document.createElement("button");
+        playButton.value = i;
+        playButton.onclick = function(){selectSong(this.value);};
+        playButton.innerHTML = "Вставить сюда svg";
+        playButton.className = "playButton";
+
+        var list = document.getElementById("songsList");
+        list.appendChild(song);
+        song.appendChild(SongName);
+        song.appendChild(playButton);
+      }
+    }
+
+    function updateCurrentInfo(){
+      currentSongName.innerHTML = songsList[currentSongNum]["songName"];
+      currentAuthorName.innerHTML = albumInfo["authorName"];
+    }
+    
+    function play(){
+      if (audioPlayer.paused) {
+        audioPlayer.play()
+      }
+      else {
+        audioPlayer.pause();
+      }
+    }//АНИМАЦИИИ
+
+    function back(){
+      if (audioPlayer.currentTime > 3) {
+        audioPlayer.currentTime = 0;
+        audioPlayer.play();
+      }
+      else {
+        playLast();
+      }
+    }
+    
+    function forward() {
+      if (audioPlayer.paused) {
+        playNext();
+        audioPlayer.pause();
+      }
+      else {
+        playNext();
+        audioPlayer.play();
+      }
+    }
+    generateSongsList(songsList);
+    
+    audioPlayer.addEventListener("ended", function() {playNext()});
+    var audioObserver = new MutationObserver(function(mutations){
+      mutations.forEach(function(mutation) {
+        if (mutation.attributeName === "src") {
+          updateCurrentInfo();
+        }})
+      });
+      audioObserver.observe (audioPlayer, {attributes: true});
+      audioPlayer.src = playlist[currentSongNum];
+
+    cover.src = albumInfo["coverPath"];
+    miniCover.src = albumInfo["coverPath"];
+    authorName.innerHTML =albumInfo["authorName"] + "  —  " + albumInfo["albumName"];
+    description.innerHTML = albumInfo["description"];
+
+    //TODO: Кнопка для показа текста.
+    //анимации
+    //звук!
+    //Информация о текущей песне
+    </script>
+  </body>
+</html>

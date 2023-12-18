@@ -64,7 +64,7 @@
         top: 0;         /*Не убирать. Обеспечивает прокрутку страницы.*/
         left: 0;        /*Не убирать. Обеспечивает прокрутку страницы.*/
         width: 100%;
-        height: 100%;   /*Не убирать. Обеспечивает прокрутку страницы.*/
+        height: 85vh;   /*Не убирать. Обеспечивает прокрутку страницы.*/
         overflow: auto; /*Не убирать. Обеспечивает прокрутку страницы.*/
         background-color: #f0f0f0; /* Цвет фона для наглядности */
       }
@@ -105,7 +105,28 @@
       .song {
         border: 0.2em solid #000000 ;
         margin: 2em;
+        padding: 2em;
       }
+      #baseControls {
+        display: flex;
+      }
+      .baseControls {
+        flex:1;
+        margin:3.75vh 3.75vh 0 3.75vh;
+        height: 7.5vh;
+        width: 7.5vh;
+      }
+      #controls {
+        display: flex;
+        justify-content: right;
+      }
+      .controls {
+        margin:3.75vh 3.75vh 0 3.75vh;
+        height: 7.5vh;
+        width: 7.5vh;
+      }
+      
+
     </style>
   </head>
   <body>
@@ -131,9 +152,9 @@
   </div>  
     <div id="player">
       <span id="baseControls">
-        <button id="back" onclick="back()"><<</button>
-        <button id = "play" onclick="play()">|> </button>
-        <button id="forward" onclick="forward()">>></button>
+        <button class="baseControls" id="back" onclick="back()"><<</button>
+        <button class="baseControls" id = "play" onclick="play()">|> </button>
+        <button class="baseControls" id="forward" onclick="forward()">>></button>
     </span>
       <span id="miniInfo">
         <img id="miniCover" src="" alt="Обложка альбома">
@@ -143,9 +164,9 @@
         </span>
       </span>
       <span id="controls">
-        <button id="loop" onclick="changeLoop(this.value)" value="0">8</button>
-        <button id="volume">A</button>
-        <button id="lyrics">T</button>
+        <button class="controls" id="loop" onclick="changeLoop(this.value)" value="0">8</button>
+        <button class="controls" id="volume">A</button>
+        <button class="controls" id="lyrics">T</button>
       </div>
       <audio id="audioPlayer" src="" controls> </audio>   
     <script>
